@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><!-- Site title goes here --></title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- D3.js -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-scale-chromatic@3"></script>
+</head>
+<body>
+  <header>
+    <h1>Visualization</h1>
+  </header>
+  <nav>
+    <button class="tab-button active" data-tab="tab1">Tab 1</button>
+    <button class="tab-button" data-tab="tab2">Tab 2</button>
+    <button class="tab-button" data-tab="tab3">Tab 3</button>
+  </nav>
+  <main>
+    <section id="tab1" class="tab-content active">
+      <div class="column">
+        <p class="map-instruction-top">
+          In this page of the viewer you can interact with the map and visualize different variables and see their geographical distribution. You can interact with the tracts and see updated distribution of the graphs in the right based on that.
+        </p>
+        <!-- Left column: D3 GeoJSON map -->
+        <svg id="map"></svg>
+        <label for="layerSelect" class="combo-label">
+          Choose a variable to display in the map
+        </label>
+        <select id="layerSelect" class="combo-box">
+        </select>
+        <p class="map-instruction-bottom">
+          The color scale on the map reflects the level of the selected variable. The more yellow the color the lower the value of the selected variable and the more red the color the higher the value of the selected variable.
+        </p>
+      </div>
+      <div class="column">
+        <!-- Right column content for Tab 1 goes here -->
+      </div>
+    </section>
+    <section id="tab2" class="tab-content">
+      <!-- Content for Tab 2 goes here -->
+    </section>
+    <section id="tab3" class="tab-content">
+      <!-- Content for Tab 3 goes here -->
+    </section>
+  </main>
+  <footer>
+    <!-- Footer content goes here -->
+    <p>© 2025 Your Company</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
