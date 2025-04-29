@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const legendWidth = 20;
   const legendHeight = height * 0.6;
-  let legendX = 220;
+  let legendX = 170;
   const legendY = (height - legendHeight) / 2;
   const defs = svg.append('defs');
   const gradient = defs.append('linearGradient')
