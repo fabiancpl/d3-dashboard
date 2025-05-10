@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const propertyMapping = {
     'Prop_white': 'Proportion of White',
@@ -59,14 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const width = svg.node().clientWidth;
   const height = svg.node().clientHeight;
   const projection = d3.geoMercator()
-    .center([-75.1352, 39.9926])
-    .scale(80000)
+    .center([-75.1352, 40.0020])
+    .scale(55000)
     .translate([width / 2, height / 2]);
   const path = d3.geoPath().projection(projection);
 
   const legendWidth = 20;
   const legendHeight = height * 0.6;
-  let legendX = 170;
+  let legendX = 50;
   const legendY = (height - legendHeight) / 2;
   const defs = svg.append('defs');
   const gradient = defs.append('linearGradient')
