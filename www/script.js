@@ -102,8 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const speedometers = speedometerConfig.map(config => ({
     svg: d3.select(`#${config.id}`),
-    center: { x: 150, y: 100 },
-    radius: 80,
+    center: { x: 150, y: 80 }, // Adjusted center coordinates
+    radius: 70, // Slightly smaller radius
     property: config.property,
     maxValue: 0
   }));
