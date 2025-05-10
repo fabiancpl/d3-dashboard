@@ -91,8 +91,109 @@ document.addEventListener('DOMContentLoaded', () => {
     .call(legendAxis);
 
   let featuresData = [];
+  const pi = Math.PI;
+
+  // Initialize speedometers
+  const speedometerConfig = [
+    { id: 'speedometer1', property: 'food_insec' },
+    { id: 'speedometer2', property: 'house_insec' },
+    { id: 'speedometer3', property: 'both_insec' }
+  ];
+  
+  const speedometers = speedometerConfig.map(config => ({
+    svg: d3.select(`#${config.id}`),
+    center: { x: 150, y: 100 },
+    radius: 80,
+    property: config.property,
+    maxValue: 0
+  }));
+
+  function createSpeedometer(speedometer) {
+    const arc = d3.arc()
+      .innerRadius(speedometer.radius - 20)
+      .outerRadius(speedometer.radius)
+      .startAngle(-pi / 2)
+      .endAngle(pi / 2);
+
+    speedometer.svg.append('path')
+      .attr('class', 'gauge-background')
+      .attr('transform', `translate(${speedometer.center.x},${speedometer.center.y})`)
+      .attr('d', arc)
+      .style('fill', '#ddd');
+
+    // Add value text in center
+    speedometer.svg.append('text')
+      .attr('class', 'speed-value')
+      .attr('x', speedometer.center.x)
+      .attr('y', speedometer.center.y - 10)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .style('font-size', '30px')
+      .text('0');
+
+    // Add min value (0%)
+    speedometer.svg.append('text')
+      .attr('class', 'min-value')
+      .attr('x', speedometer.center.x - speedometer.radius + 10)
+      .attr('y', speedometer.center.y + 20)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text('0.0');
+
+    // Add max value
+    speedometer.svg.append('text')
+      .attr('class', 'max-value')
+      .attr('x', speedometer.center.x + speedometer.radius - 10)
+      .attr('y', speedometer.center.y + 20)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text(speedometer.maxValue.toFixed(1));
+  }
+
+  function updateSpeedometer(speedometer, value) {
+    if (value === null || value === undefined) {
+      value = 0;
+    }
+    
+    const scale = d3.scaleLinear()
+      .domain([0, speedometer.maxValue])
+      .range([-pi/2, pi/2]);
+
+    const arc = d3.arc()
+      .innerRadius(speedometer.radius - 20)
+      .outerRadius(speedometer.radius)
+      .startAngle(-pi / 2)
+      .endAngle(scale(value));
+
+    // Update or create gauge fill
+    let gaugeFill = speedometer.svg.select('.gauge-fill');
+    if (gaugeFill.empty()) {
+      gaugeFill = speedometer.svg.append('path')
+        .attr('class', 'gauge-fill')
+        .attr('transform', `translate(${speedometer.center.x},${speedometer.center.y})`)
+        .style('fill', 'steelblue');
+    }
+
+    gaugeFill.transition()
+      .duration(750)
+      .attr('d', arc);
+
+    // Update value text
+    speedometer.svg.select('.speed-value')
+      .transition()
+      .duration(750)
+      .text(value.toFixed(1));
+  }
+
   d3.json('data/ct2020.geojson').then(data => {
     featuresData = data.features;
+    
+    // Calculate max values for each speedometer
+    speedometers.forEach(speedometer => {
+      speedometer.maxValue = d3.max(featuresData, d => d.properties[speedometer.property]) || 100;
+      createSpeedometer(speedometer);
+    });
+
     svg.selectAll('path.feature')
       .data(featuresData)
       .enter().append('path')
@@ -110,8 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
             value != null ? value.toFixed(2) + '%' : 'No value'
           }`)
             .style('left', (event.pageX + 10) + 'px')
-            .style('top', (event.pageY + 10) + 'px')
-            .transition().duration(200).style('opacity', 1);
+            .style('top', (event.pageY - 10) + 'px')
+            .style('opacity', 1);
+          
+          // Update all speedometers
+          speedometers.forEach(speedometer => {
+            updateSpeedometer(speedometer, d.properties[speedometer.property]);
+          });
         })
         .on('mousemove', event => {
           tooltip

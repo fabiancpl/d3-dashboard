@@ -54,3 +54,21 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 .tab-content:not(.active) .combo-box {
   display: none;
 }
+
+/* Speedometer styles */
+#speedometer {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  height: 150px;
+}
+
+.gauge-background {
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+.gauge-fill {
+  stroke: #666;
+  stroke-width: 1px;
+}
