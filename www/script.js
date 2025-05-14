@@ -185,6 +185,89 @@ document.addEventListener('DOMContentLoaded', () => {
       .text(value.toFixed(1));
   }
 
+  // Initialize bar chart
+  const barChart = {
+    svg: d3.select('#bar-chart'),
+    width: d3.select('#bar-chart').node().clientWidth,
+    height: d3.select('#bar-chart').node().clientHeight - 10,
+    margin: { top: 20, right: 20, bottom: 30, left: 50 }
+  };
+
+  // Set up bar chart scales and groups
+  barChart.innerWidth = barChart.width - barChart.margin.left - barChart.margin.right;
+  barChart.innerHeight = barChart.height - barChart.margin.top - barChart.margin.bottom;
+
+  barChart.g = barChart.svg.append('g')
+    .attr('transform', `translate(${barChart.margin.left},${barChart.margin.top})`);
+
+  barChart.xScale = d3.scaleBand()
+    .domain(['white_asian', 'white_black', 'white_hispanic', 'white_others'])
+    .range([0, barChart.innerWidth])
+    .padding(0.1);
+
+  barChart.yScale = d3.scaleLinear()
+    .domain([0, 0.5])
+    .range([barChart.innerHeight, 0]);
+
+  // Add axes
+  barChart.g.append('g')
+    .attr('class', 'x-axis')
+    .attr('transform', `translate(0,${barChart.innerHeight})`)
+    .call(d3.axisBottom(barChart.xScale)
+      .tickFormat(d => {
+        const labels = {
+          'white_asian': 'DD White vs. Asian',
+          'white_black': 'DD White vs. Black',
+          'white_hispanic': 'DD White vs. Hispanic',
+          'white_others': 'DD White vs. Others'
+        };
+        return labels[d];
+      }));
+
+  barChart.g.append('g')
+    .attr('class', 'y-axis')
+    .call(d3.axisLeft(barChart.yScale));
+
+  // Add y-axis label
+  barChart.g.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', 0 - barChart.margin.left)
+    .attr('x', 0 - (barChart.innerHeight / 2))
+    .attr('dy', '1em')
+    .style('text-anchor', 'middle')
+    .text('Duncan Dissimilarity Index')
+    .style('font-size', '12px');
+
+  // Initial bars with 0 height
+  barChart.g.selectAll('.bar')
+    .data(['white_asian', 'white_black', 'white_hispanic', 'white_others'])
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('x', d => barChart.xScale(d))
+    .attr('width', barChart.xScale.bandwidth())
+    .attr('y', barChart.innerHeight)
+    .attr('height', 0);
+
+  function updateBarChart(properties) {
+    const data = ['white_asian', 'white_black', 'white_hispanic', 'white_others'].map(prop => ({
+      name: prop,
+      value: properties ? (properties[prop] || 0) : 0
+    }));
+
+    barChart.g.selectAll('.bar')
+      .data(data)
+      .transition()
+      .duration(750)
+      .attr('x', d => barChart.xScale(d.name))
+      .attr('width', barChart.xScale.bandwidth())
+      .attr('y', d => barChart.yScale(d.value))
+      .attr('height', d => barChart.innerHeight - barChart.yScale(d.value));
+  }
+
+  // Initial update with no selection
+  updateBarChart(null);
+
   d3.json('data/ct2020.geojson').then(data => {
     featuresData = data.features;
     
@@ -218,6 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
           speedometers.forEach(speedometer => {
             updateSpeedometer(speedometer, d.properties[speedometer.property]);
           });
+
+          // Update bar chart
+          updateBarChart(d.properties);
         })
         .on('mousemove', event => {
           tooltip
@@ -226,6 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .on('mouseout', () => {
           tooltip.transition().duration(200).style('opacity', 0);
+          // Reset speedometers to 0
+          speedometers.forEach(speedometer => {
+            updateSpeedometer(speedometer, 0);
+          });
+          // Reset bar chart to 0
+          updateBarChart(null);
         });
     updateChoropleth(layerSelect.value);
   }).catch(err => console.error('Error loading GeoJSON:', err));
