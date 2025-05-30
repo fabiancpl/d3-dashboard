@@ -89,9 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     .attr('class', 'legend axis')
     .attr('transform', `translate(${legendX}, ${legendY})`)
     .call(legendAxis);
-
   let featuresData = [];
+  let globalMeans = {};
   const pi = Math.PI;
+
+  // Function to calculate mean of values
+  function calculateMean(arr) {
+    const validValues = arr.filter(v => v != null && !isNaN(v));
+    return validValues.length ? d3.mean(validValues) : 0;
+  }
 
   // Initialize speedometers
   const speedometerConfig = [
@@ -267,14 +273,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial update with no selection
   updateBarChart(null);
-
   d3.json('data/ct2020.geojson').then(data => {
     featuresData = data.features;
     
-    // Calculate max values for each speedometer
+    // Calculate max values for each speedometer and global means
     speedometers.forEach(speedometer => {
       speedometer.maxValue = d3.max(featuresData, d => d.properties[speedometer.property]) || 100;
+      // Calculate global mean for each speedometer property
+      globalMeans[speedometer.property] = calculateMean(featuresData.map(d => d.properties[speedometer.property]));
       createSpeedometer(speedometer);
+    });
+
+    // Calculate global means for bar chart properties
+    ['white_asian', 'white_black', 'white_hispanic', 'white_others'].forEach(prop => {
+      globalMeans[prop] = calculateMean(featuresData.map(d => d.properties[prop]));
+    });
+
+    // Initialize with global means
+    speedometers.forEach(speedometer => {
+      updateSpeedometer(speedometer, globalMeans[speedometer.property]);
+    });
+    updateBarChart({ 
+      white_asian: globalMeans.white_asian,
+      white_black: globalMeans.white_black,
+      white_hispanic: globalMeans.white_hispanic,
+      white_others: globalMeans.white_others
     });
 
     svg.selectAll('path.feature')
@@ -288,14 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .attr('data-tract', d => d.properties.TRACTCEmod)
         .on('mouseover', (event, d) => {
           const prop = layerSelect.value;
-          const label = propertyMapping[prop];
-          const value = d.properties[prop];
+          const label = propertyMapping[prop];          const value = d.properties[prop];
+          tooltip.transition()
+            .duration(0)  // Immediate appearance
+            .style('opacity', 1);
           tooltip.html(`TRACTCE: ${d.properties.TRACTCE}<br>${label}: ${
             value != null ? value.toFixed(2) + '%' : 'No value'
           }`)
             .style('left', (event.pageX + 10) + 'px')
-            .style('top', (event.pageY - 10) + 'px')
-            .style('opacity', 1);
+            .style('top', (event.pageY - 10) + 'px');
           
           // Update all speedometers
           speedometers.forEach(speedometer => {
@@ -304,20 +328,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Update bar chart
           updateBarChart(d.properties);
-        })
-        .on('mousemove', event => {
+        })        .on('mousemove', event => {
           tooltip
             .style('left', (event.pageX + 10) + 'px')
-            .style('top', (event.pageY + 10) + 'px');
-        })
-        .on('mouseout', () => {
+            .style('top', (event.pageY - 10) + 'px')
+            .style('opacity', 1);
+        })        .on('mouseout', () => {
           tooltip.transition().duration(200).style('opacity', 0);
-          // Reset speedometers to 0
+          // Show global means in speedometers
           speedometers.forEach(speedometer => {
-            updateSpeedometer(speedometer, 0);
+            updateSpeedometer(speedometer, globalMeans[speedometer.property]);
           });
-          // Reset bar chart to 0
-          updateBarChart(null);
+          // Show global means in bar chart
+          updateBarChart({ 
+            white_asian: globalMeans.white_asian,
+            white_black: globalMeans.white_black,
+            white_hispanic: globalMeans.white_hispanic,
+            white_others: globalMeans.white_others
+          });
         });
     updateChoropleth(layerSelect.value);
   }).catch(err => console.error('Error loading GeoJSON:', err));
