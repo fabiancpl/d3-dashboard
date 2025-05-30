@@ -69,11 +69,18 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 /* Ensure tab content is completely hidden when not active */
 /* Tab content visibility */
 .tab-content {
-  display: none;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .tab-content.active {
-  display: flex !important;
+  visibility: visible;
+  position: relative;
+  opacity: 1;
+  display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -81,7 +88,8 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 /* Two-column layout for tabs */
 .tab-content .column {
   flex: 1;
-  min-width: 45%;
+  min-width: 250px;
+  padding: 15px;
 }
 
 /* Speedometer styles */
@@ -239,4 +247,15 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 .selector-group .combo-box {
   width: 100%;
   max-width: none;
+}
+
+/* Boxplot container */
+#boxplot {
+  width: 90%;
+  height: 400px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 0 auto;
+  display: block;
 }

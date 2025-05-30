@@ -5,9 +5,9 @@ const buttons = document.querySelectorAll('.tab-button');
   contents.forEach(c => {
     if (c.classList.contains('active')) {
       c.style.display = c.id === 'tab1' ? 'flex' : 'block';
-    } else {
+    }/* else {
       c.style.display = 'none';
-    }
+    }*/
   });
 
   buttons.forEach(button => button.addEventListener('click', () => {
@@ -17,7 +17,7 @@ const buttons = document.querySelectorAll('.tab-button');
       // Update content visibility
     contents.forEach(c => {
       c.classList.remove('active');
-      c.style.display = 'none';
+      //c.style.display = 'none';
     });
     const activeContent = document.getElementById(button.dataset.tab);
     activeContent.classList.add('active');

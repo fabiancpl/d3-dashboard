@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     svg: d3.select('#bar-chart'),
     width: d3.select('#bar-chart').node().clientWidth,
     height: d3.select('#bar-chart').node().clientHeight - 10,
-    margin: { top: 20, right: 20, bottom: 30, left: 50 }
+    margin: { top: 20, right: 20, bottom: 40, left: 50 }
   };
 
   // Set up bar chart scales and groups
