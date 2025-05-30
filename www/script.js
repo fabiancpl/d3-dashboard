@@ -34,24 +34,30 @@ document.addEventListener('DOMContentLoaded', () => {
     .style('border-radius', '4px')
     .style('pointer-events', 'none')
     .style('opacity', 0);
-
   const buttons = document.querySelectorAll('.tab-button');
   const contents = document.querySelectorAll('.tab-content');
-  const mapEl = document.getElementById('map');
-  buttons.forEach(button => button.addEventListener('click', () => {
-    buttons.forEach(b => b.classList.remove('active'));
-    contents.forEach(c => c.classList.remove('active'));
-    button.classList.add('active');
-    document.getElementById(button.dataset.tab).classList.add('active');
-    if (button.dataset.tab === 'tab1') {
-      mapEl.style.display = 'block'; layerSelect.style.display = 'block';
+  // Initialize tab states
+  contents.forEach(c => {
+    if (c.classList.contains('active')) {
+      c.style.display = c.id === 'tab1' ? 'flex' : 'block';
     } else {
-      mapEl.style.display = 'none'; layerSelect.style.display = 'none';
+      c.style.display = 'none';
     }
+  });
+
+  buttons.forEach(button => button.addEventListener('click', () => {
+    // Update button active states
+    buttons.forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+      // Update content visibility
+    contents.forEach(c => {
+      c.classList.remove('active');
+      c.style.display = 'none';
+    });
+    const activeContent = document.getElementById(button.dataset.tab);
+    activeContent.classList.add('active');
+    activeContent.style.display = activeContent.id === 'tab1' ? 'flex' : 'block';
   }));
-  if (document.querySelector('.tab-button.active').dataset.tab !== 'tab1') {
-    mapEl.style.display = 'none'; layerSelect.style.display = 'none';
-  }
 
   const svg = d3.select('#map');
   const width = svg.node().clientWidth;

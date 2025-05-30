@@ -66,11 +66,22 @@ main { flex: 1; width: 100%; padding: 15px; }
 footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100%; }
 
 /* Hide map instructions and controls on inactive tabs */
-.tab-content:not(.active) .map-instruction-top,
-.tab-content:not(.active) .map-instruction-bottom,
-.tab-content:not(.active) .combo-label,
-.tab-content:not(.active) .combo-box {
+/* Ensure tab content is completely hidden when not active */
+/* Tab content visibility */
+.tab-content {
   display: none;
+}
+
+.tab-content.active {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Two-column layout for Tab 1 */
+#tab1 .column {
+  flex: 1;
+  min-width: 45%;
 }
 
 /* Speedometer styles */
