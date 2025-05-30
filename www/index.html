@@ -61,9 +61,92 @@
           <svg id="bar-chart"></svg>
         </div>
       </div>
-    </section>
-    <section id="tab2" class="tab-content">
-      <!-- Content for Tab 2 goes here -->
+    </section>    <section id="tab2" class="tab-content">      <div class="column">
+        <!-- Left column -->
+        <div class="content-section">
+          <p class="section-instruction">In this page you can explore the results of different scenarios disaggregated into different stakeholder groups and the change in estimated cost compared to the baseline. In the table below you can see a description of the different scenarios and then choose which scenario to explore.</p>
+          
+          <table class="scenarios-table">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>A</td><td></td></tr>
+              <tr><td>B</td><td></td></tr>
+              <tr><td>C</td><td></td></tr>
+              <tr><td>D</td><td></td></tr>
+              <tr><td>C + D</td><td></td></tr>
+              <tr><td>E</td><td></td></tr>
+              <tr><td>C + D + E</td><td></td></tr>
+              <tr><td>D + E</td><td></td></tr>
+              <tr><td>F</td><td></td></tr>
+              <tr><td>C + F</td><td></td></tr>
+              <tr><td>G</td><td></td></tr>
+              <tr><td>F + G</td><td></td></tr>
+            </tbody>
+          </table>          <div class="selectors-container">
+            <div class="selector-group">
+              <label for="scenarioSelect" class="combo-label">Scenario to explore</label>
+              <select id="scenarioSelect" class="combo-box">
+                <option value="A">Scenario A</option>
+                <option value="B">Scenario B</option>
+                <option value="C">Scenario C</option>
+                <option value="D">Scenario D</option>
+                <option value="CD">Scenario C + D</option>
+                <option value="E">Scenario E</option>
+                <option value="CDE">Scenario C + D + E</option>
+                <option value="DE">Scenario D + E</option>
+                <option value="F">Scenario F</option>
+                <option value="CF">Scenario C + F</option>
+                <option value="G">Scenario G</option>
+                <option value="FG">Scenario F + G</option>
+              </select>
+            </div>
+
+            <div class="selector-group">
+              <label for="variableSelect" class="combo-label">Variable to display</label>
+              <select id="variableSelect" class="combo-box">
+                <option value="foodStamps">Food stamps beneficiaries</option>
+                <option value="raceEthnicity">Race/ethnicity</option>
+                <option value="incomeThresholds">Income thresholds</option>
+              </select>
+            </div>
+
+            <div class="selector-group">
+              <label for="monthSelect" class="combo-label">Month</label>
+              <select id="monthSelect" class="combo-box">
+                <option value="M7">M7</option>
+                <option value="M8">M8</option>
+                <option value="M9">M9</option>
+                <option value="M10">M10</option>
+                <option value="M11">M11</option>
+                <option value="M12">M12</option>
+                <option value="M13">M13</option>
+                <option value="M14">M14</option>
+                <option value="M15">M15</option>
+                <option value="M16">M16</option>
+                <option value="M17">M17</option>
+                <option value="M18">M18</option>
+                <option value="M19">M19</option>
+                <option value="M20">M20</option>
+                <option value="M21">M21</option>
+                <option value="M22">M22</option>
+                <option value="M23">M23</option>
+                <option value="M24">M24</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <!-- Right column -->
+        <div class="content-section">
+          <!-- Content for right column -->
+        </div>
+      </div>
     </section>
     <section id="tab3" class="tab-content">
       <!-- Content for Tab 3 goes here -->
@@ -74,5 +157,7 @@
     <p>© 2025 Your Company</p>
   </footer>
   <script src="script.js"></script>
+  <script src="tab1.js"></script>
+  <script src="tab2.js"></script>
 </body>
 </html>

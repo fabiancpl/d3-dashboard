@@ -78,8 +78,8 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
   gap: 20px;
 }
 
-/* Two-column layout for Tab 1 */
-#tab1 .column {
+/* Two-column layout for tabs */
+.tab-content .column {
   flex: 1;
   min-width: 45%;
 }
@@ -180,4 +180,63 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 
 .bar:hover {
   fill: #2a5b8b;
+}
+
+/* Content section styles */
+.content-section {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  min-height: 500px;
+}
+
+/* Scenarios table styles */
+.scenarios-table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.scenarios-table th,
+.scenarios-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.scenarios-table thead th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+.scenarios-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.scenarios-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.selectors-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.selector-group {
+  text-align: center;
+  flex: 1;
+}
+
+.selector-group .combo-box {
+  width: 100%;
+  max-width: none;
 }
