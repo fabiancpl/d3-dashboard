@@ -67,15 +67,15 @@
         <!-- Left column -->
         <div class="content-section">
           <p class="section-instruction">In this page you can explore the results of different scenarios disaggregated into different stakeholder groups and the change in estimated cost compared to the baseline. In the table below you can see a description of the different scenarios and then choose which scenario to explore.</p>
-          
-          <table class="scenarios-table">
-            <thead>
-              <tr>
-                <th>Scenario</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
+            <div class="scenarios-table-wrapper">
+            <table class="scenarios-table">
+              <thead>
+                <tr>
+                  <th>Scenario</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
               <tr><td>A</td><td>In this scenario, food stamps are turned off for all beneficiaries from the beginning of the simulation.</td></tr>
               <tr><td>B</td><td>This is the baseline scenario that replicates the city's current behavior in terms of food and household insecurity.</td></tr>
               <tr><td>C</td><td>In this scenario, the income needed to be eligible for food stamps is decreased by 20%. This favors the chances of being eligible for each household.</td></tr>
@@ -87,9 +87,10 @@
               <tr><td>F</td><td>NA</td></tr>
               <tr><td>C + F</td><td>This scenario combines increasing income eligibility by 20% and decreasing the monetary base by 20% for the calculation of food stamps.</td></tr>
               <tr><td>G</td><td>NA</td></tr>
-              <tr><td>F + G</td><td>This scenario combines decreasing income eligibility by 20% and the monetary base by 20% for the calculation of food stamps.</td></tr>
-            </tbody>
-          </table>          <div class="selectors-container">
+              <tr><td>F + G</td><td>This scenario combines decreasing income eligibility by 20% and the monetary base by 20% for the calculation of food stamps.</td></tr>            </tbody>
+            </table>
+          </div>
+          <div class="selectors-container">
             <div class="selector-group">
               <label for="scenarioSelect" class="combo-label">Scenario to explore</label>
               <select id="scenarioSelect" class="combo-box">

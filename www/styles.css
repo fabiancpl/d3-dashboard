@@ -202,14 +202,18 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 }
 
 /* Scenarios table styles */
-.scenarios-table {
-  width: 100%;
+.scenarios-table-wrapper {
   margin: 20px 0;
-  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 6px;
-  overflow: hidden;
+}
+
+.scenarios-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .scenarios-table th,
@@ -217,6 +221,17 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+.scenarios-table th:first-child,
+.scenarios-table td:first-child {
+  width: 100px;
+}
+
+.scenarios-table th:last-child,
+.scenarios-table td:last-child {
+  width: calc(100% - 100px);
 }
 
 .scenarios-table thead th {
