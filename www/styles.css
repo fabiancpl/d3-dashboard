@@ -6,13 +6,30 @@ header { background-color: #f4f4f4; padding: 20px; text-align: center; }
 nav { display: flex; background-color: #333; width: 100%; }
 nav button { flex: 1; padding: 15px; background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
 nav button:hover, nav button.active { background-color: #555; }
-main { flex: 1; width: 100%; padding: 15px; }
-.tab-content { display: none; width: 100%; }
-.tab-content.active { display: block; }
+main { 
+  flex: 1; 
+  width: 100%; 
+  padding: 15px; 
+}
 
-/* Two-column layout for Tab 1 */
-#tab1 { display: flex; flex-wrap: wrap; gap: 5px; }
-#tab1 .column { flex: 1; min-width: 250px; padding: 15px; }
+/* Tab content styles */
+.tab-content { 
+  display: none; 
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.tab-content.active { 
+  display: flex; 
+}
+
+/* Two-column layout for all tabs */
+.tab-content .column { 
+  flex: 1; 
+  min-width: 250px; 
+  padding: 15px; 
+}
 
 /* Map container */
 .map-section {
@@ -64,33 +81,6 @@ main { flex: 1; width: 100%; padding: 15px; }
 
 /* Footer styles */
 footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100%; }
-
-/* Hide map instructions and controls on inactive tabs */
-/* Ensure tab content is completely hidden when not active */
-/* Tab content visibility */
-.tab-content {
-  visibility: hidden;
-  position: absolute;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.tab-content.active {
-  visibility: visible;
-  position: relative;
-  opacity: 1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Two-column layout for tabs */
-.tab-content .column {
-  flex: 1;
-  min-width: 250px;
-  padding: 15px;
-}
 
 /* Speedometer styles */
 

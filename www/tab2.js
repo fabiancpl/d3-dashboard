@@ -335,4 +335,14 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSpeedometers();
   }
 
+  // Add resize handler
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    if (document.getElementById('tab2').classList.contains('active')) {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateBoxplot();
+      }, 250);
+    }
+  });
 });
