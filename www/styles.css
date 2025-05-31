@@ -142,6 +142,9 @@ footer { background-color: #f4f4f4; text-align: center; padding: 8px; width: 100
 #speedometer1 { height: 110px; }
 #speedometer2 { height: 110px; }
 #speedometer3 { height: 110px; }
+#speedometer-fs { height: 110px; }
+#speedometer-beneficiaries { height: 110px; }
+#speedometer-stamps { height: 110px; }
 
 /* Make the third speedometer span the full width and center it */
 .speedometer-item:nth-child(3) {

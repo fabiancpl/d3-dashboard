@@ -2,26 +2,162 @@ document.addEventListener('DOMContentLoaded', () => {
   // Get select elements
   const scenarioSelect = document.getElementById('scenarioSelect');
   const variableSelect = document.getElementById('variableSelect');
-  const monthSelect = document.getElementById('monthSelect');
+  const monthSelect = document.getElementById('monthSelect');  const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+  const pi = Math.PI;
 
-  const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+  // Initialize speedometers
+  const speedometerConfig = [
+    { id: 'speedometer-fs', property: 'perc_fs' },
+    { id: 'speedometer-beneficiaries', property: 'perc_fs_beneficiaries' },
+    { id: 'speedometer-stamps', property: 'perc_stamps' }
+  ];
+  
+  const speedometers = speedometerConfig.map(config => ({
+    svg: d3.select(`#${config.id}`),
+    center: { x: 150, y: 80 },
+    radius: 70,
+    property: config.property,
+    minValue: 0,
+    maxValue: 0
+  }));
 
-    // Function to get SVG dimensions, using percentages if element is hidden
+  function createSpeedometer(speedometer) {
+    const arc = d3.arc()
+      .innerRadius(speedometer.radius - 20)
+      .outerRadius(speedometer.radius)
+      .startAngle(-pi / 2)
+      .endAngle(pi / 2);
+
+    speedometer.svg
+      .attr('width', speedometer.center.x * 2)
+      .attr('height', speedometer.center.y * 2);
+
+    speedometer.svg.append('path')
+      .attr('class', 'gauge-background')
+      .attr('transform', `translate(${speedometer.center.x},${speedometer.center.y})`)
+      .attr('d', arc)
+      .style('fill', '#ddd');
+
+    // Add value text in center
+    speedometer.svg.append('text')
+      .attr('class', 'speed-value')
+      .attr('x', speedometer.center.x)
+      .attr('y', speedometer.center.y - 10)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .style('font-size', '30px')
+      .text('0');
+
+    // Add min value
+    speedometer.svg.append('text')
+      .attr('class', 'min-value')
+      .attr('x', speedometer.center.x - speedometer.radius + 10)
+      .attr('y', speedometer.center.y + 20)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text('0.0');
+
+    // Add max value
+    speedometer.svg.append('text')
+      .attr('class', 'max-value')
+      .attr('x', speedometer.center.x + speedometer.radius - 10)
+      .attr('y', speedometer.center.y + 20)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text('0.0');
+  }
+
+  function updateSpeedometer(speedometer, value, minValue, maxValue) {
+    if (value === null || value === undefined) {
+      value = 0;
+    }
+
+    speedometer.minValue = minValue;
+    speedometer.maxValue = maxValue;
+    
+    const scale = d3.scaleLinear()
+      .domain([minValue, maxValue])
+      .range([-pi/2, pi/2]);    // Ensure the value is within bounds to avoid invalid arcs
+    const safeValue = Math.max(minValue, Math.min(maxValue, value));
+    const endAngle = scale(safeValue);
+    
+    // Check if the angle is valid
+    const arc = d3.arc()
+      .innerRadius(speedometer.radius - 20)
+      .outerRadius(speedometer.radius)
+      .startAngle(-pi / 2)
+      .endAngle(Number.isFinite(endAngle) ? endAngle : -pi / 2);
+
+    // Update or create gauge fill
+    let gaugeFill = speedometer.svg.select('.gauge-fill');
+    if (gaugeFill.empty()) {
+      gaugeFill = speedometer.svg.append('path')
+        .attr('class', 'gauge-fill')
+        .attr('transform', `translate(${speedometer.center.x},${speedometer.center.y})`)
+        .style('fill', 'steelblue');
+    }
+
+    if (Number.isFinite(endAngle)) {
+      gaugeFill.transition()
+        .duration(750)
+        .attr('d', arc);
+    } else {
+      gaugeFill.attr('d', ''); // Empty path if angle is invalid
+    }
+
+    // Update value text
+    speedometer.svg.select('.speed-value')
+      .transition()
+      .duration(750)
+      .text((value * 100).toFixed(1));
+
+    // Update min and max values
+    speedometer.svg.select('.min-value')
+      .text((minValue * 100).toFixed(1));
+    
+    speedometer.svg.select('.max-value')
+      .text((maxValue * 100).toFixed(1));
+  }
+  // Function to update speedometers
+  function updateSpeedometers() {
+    d3.csv('data/scenarios_perc_changes.csv').then(data => {
+      // Get the selected scenario and month
+      const selectedScenario = scenarioSelect.options[scenarioSelect.selectedIndex].text.replace("Scenario ", "");
+      const selectedMonth = monthSelect.value;
+
+      // Find the matching row
+      const row = data.find(d => d.scenario === selectedScenario && d.month === selectedMonth);
+
+      if (row) {
+        // Calculate min and max values for each metric
+        const metrics = {
+          perc_fs: data.map(d => +d.perc_fs),
+          perc_fs_beneficiaries: data.map(d => +d.perc_fs_beneficiaries),
+          perc_stamps: data.map(d => +d.perc_stamps)
+        };
+
+        // Update each speedometer
+        speedometers.forEach(speedometer => {
+          const values = metrics[speedometer.property];
+          const minValue = d3.min(values);
+          const maxValue = d3.max(values);
+          const value = +row[speedometer.property];
+          updateSpeedometer(speedometer, value, minValue, maxValue);
+        });
+      }
+    });
+  }
+
+  // Function to get SVG dimensions, using percentages if element is hidden
   function getSvgDimensions() {
     const boxplot = document.getElementById('boxplot');
     const container = boxplot.parentElement;
     const containerWidth = container.clientWidth;
     
-    console.log('Container width:', containerWidth);
     // If the element is hidden, calculate based on container and CSS percentage
     const width = boxplot.clientWidth || (containerWidth * 0.9); // 90% as per CSS
     const height = boxplot.clientHeight || 400; // Direct value from CSS
-    
-    console.log('Final dimensions:', {
-      width: width - margin.left - margin.right,
-      height: height - margin.top - margin.bottom
-    });
-    
+        
     return {
       width: width - margin.left - margin.right,
       height: height - margin.top - margin.bottom
@@ -49,9 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       d.variable === variableSelect.options[variableSelect.selectedIndex].text && 
       d.month === monthSelect.value
     );
-    
-    console.log('Filtered data:', filteredData);
-    
+        
     if (filteredData.length === 0) {
       console.log('No data found for:', {
         scenario: scenarioSelect.options[scenarioSelect.selectedIndex].text,
@@ -163,16 +297,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     });
   }
+
   // Add event listeners for select changes
-  scenarioSelect.addEventListener('change', updateBoxplot);
+  scenarioSelect.addEventListener('change', () => {
+    updateBoxplot();
+    updateSpeedometers();
+  });
+
   variableSelect.addEventListener('change', updateBoxplot);
-  monthSelect.addEventListener('change', updateBoxplot);
+
+  monthSelect.addEventListener('change', () => {
+    updateBoxplot();
+    updateSpeedometers();
+  });
+  // Initialize speedometers
+  speedometers.forEach(createSpeedometer);
 
   // Watch for tab visibility changes
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.target.id === 'tab2' && mutation.target.classList.contains('active')) {
         updateBoxplot();
+        updateSpeedometers();
       }
     });
   });
@@ -182,10 +328,11 @@ document.addEventListener('DOMContentLoaded', () => {
     attributes: true,
     attributeFilter: ['class']
   });
-
-  // If tab2 is already active on load, render the boxplot
+  
+  // If tab2 is already active on load, render visualizations
   if (document.getElementById('tab2').classList.contains('active')) {
     updateBoxplot();
+    updateSpeedometers();
   }
 
 });
