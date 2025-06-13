@@ -170,7 +170,7 @@
     </section>
     <section id="tab3" class="tab-content">
       <div class="column">
-        <!-- Right column -->
+        <!-- Left column -->
         <div class="content-section">
           <p class="section-instruction">In this page you can compare different metrics between scenarios.</p>
           <div class="scenarios-table-wrapper">
@@ -196,12 +196,43 @@
               <tr><td>F + G</td><td>This scenario combines decreasing income eligibility by 20% and the monetary base by 20% for the calculation of food stamps.</td></tr>            </tbody>
             </table>
           </div>
+
+          <div class="selectors-container">
+            <div class="selector-group">
+              <label for="scenarioSelect3" class="combo-label">Scenario to explore</label>
+              <select id="scenarioSelect3" class="combo-box">
+                <option value="A">Scenario A</option>
+                <option value="B">Scenario B</option>
+                <option value="C">Scenario C</option>
+                <option value="D">Scenario D</option>
+                <option value="CD">Scenario C + D</option>
+                <option value="E">Scenario E</option>
+                <option value="CDE">Scenario C + D + E</option>
+                <option value="DE">Scenario D + E</option>
+                <option value="F">Scenario F</option>
+                <option value="CF">Scenario C + F</option>
+                <option value="G">Scenario G</option>
+                <option value="FG">Scenario F + G</option>
+              </select>
+            </div>
+
+            <div class="selector-group">
+              <label for="variableSelect3" class="combo-label">Variable to display</label>              <select id="variableSelect3" class="combo-box">
+                <option value="foodInsecurity">Food insecurity</option>
+                <option value="houseInsecurity">House insecurity</option>
+                <option value="ddWhiteAsian">DD White vs Asian</option>
+                <option value="ddWhiteAfrican">DD White vs African American</option>
+                <option value="ddWhiteHispanic">DD White vs Hispanic</option>
+                <option value="ddWhiteOthers">DD White vs Others</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       <div class="column">
-        <!-- Left column -->
+        <!-- Right column -->
         <div class="content-section">
-
+          <svg id="simulator"></svg>
         </div>
       </div>
     </section>

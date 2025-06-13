@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Get select elements
   const scenarioSelect = document.getElementById('scenarioSelect');
   const variableSelect = document.getElementById('variableSelect');
-  const monthSelect = document.getElementById('monthSelect');  const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+  const monthSelect = document.getElementById('monthSelect');
+  const margin = { top: 20, right: 20, bottom: 40, left: 50 };
   const pi = Math.PI;
 
   // Initialize speedometers
