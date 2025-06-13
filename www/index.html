@@ -20,7 +20,8 @@
     <button class="tab-button" data-tab="tab3">Tab 3</button>
   </nav>
   <main>
-    <section id="tab1" class="tab-content active">      <div class="column">
+    <section id="tab1" class="tab-content active">
+      <div class="column">
         <div class="map-section">
           <p class="map-instruction-top">
             In this page of the viewer you can interact with the map and visualize different variables and see their geographical distribution. You can interact with the tracts and see updated distribution of the graphs in the right based on that.
@@ -67,7 +68,7 @@
         <!-- Left column -->
         <div class="content-section">
           <p class="section-instruction">In this page you can explore the results of different scenarios disaggregated into different stakeholder groups and the change in estimated cost compared to the baseline. In the table below you can see a description of the different scenarios and then choose which scenario to explore.</p>
-            <div class="scenarios-table-wrapper">
+          <div class="scenarios-table-wrapper">
             <table class="scenarios-table">
               <thead>
                 <tr>
@@ -143,7 +144,8 @@
             </div>
           </div>
         </div>
-      </div>      <div class="column">
+      </div>
+      <div class="column">
         <!-- Right column -->
         <div class="content-section">
           <svg id="boxplot"></svg>
@@ -167,7 +169,41 @@
       </div>
     </section>
     <section id="tab3" class="tab-content">
-      <!-- Content for Tab 3 goes here -->
+      <div class="column">
+        <!-- Right column -->
+        <div class="content-section">
+          <p class="section-instruction">In this page you can compare different metrics between scenarios.</p>
+          <div class="scenarios-table-wrapper">
+            <table class="scenarios-table">
+              <thead>
+                <tr>
+                  <th>Scenario</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr><td>A</td><td>In this scenario, food stamps are turned off for all beneficiaries from the beginning of the simulation.</td></tr>
+              <tr><td>B</td><td>This is the baseline scenario that replicates the city's current behavior in terms of food and household insecurity.</td></tr>
+              <tr><td>C</td><td>In this scenario, the income needed to be eligible for food stamps is decreased by 20%. This favors the chances of being eligible for each household.</td></tr>
+              <tr><td>D</td><td>In this scenario the stamp calculation base is increased by 20% resulting in a higher overall stamp value for all beneficiaries.</td></tr>
+              <tr><td>C + D</td><td>This scenario combines increasing income eligibility by 20% and the monetary base by 20% for the calculation of food stamps.</td></tr>
+              <tr><td>E</td><td>In this scenario, the importance of the eligibility criterion in the calculation of the monetary base of the stamp is increased by 20%.</td></tr>
+              <tr><td>C + D + E</td><td>This scenario combines increasing income eligibility by 20%, the monetary base by 20% and by 20% the importance of the eligibility criteria for the calculation of food stamps.</td></tr>
+              <tr><td>D + E</td><td>This scenario combines increasing the monetary base by 20% and by 20% the importance of the eligibility criteria for the calculation of food stamps.</td></tr>
+              <tr><td>F</td><td>NA</td></tr>
+              <tr><td>C + F</td><td>This scenario combines increasing income eligibility by 20% and decreasing the monetary base by 20% for the calculation of food stamps.</td></tr>
+              <tr><td>G</td><td>NA</td></tr>
+              <tr><td>F + G</td><td>This scenario combines decreasing income eligibility by 20% and the monetary base by 20% for the calculation of food stamps.</td></tr>            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <!-- Left column -->
+        <div class="content-section">
+
+        </div>
+      </div>
     </section>
   </main>
   <footer>
@@ -177,5 +213,6 @@
   <script src="script.js"></script>
   <script src="tab1.js"></script>
   <script src="tab2.js"></script>
+  <script src="tab3.js"></script>
 </body>
 </html>
