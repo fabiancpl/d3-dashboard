@@ -29,7 +29,7 @@
           <!-- Left column: D3 GeoJSON map -->
           <svg id="map"></svg>
           <label for="layerSelect" class="combo-label">
-            Choose a variable to display in the map
+            Variable
           </label>
           <select id="layerSelect" class="combo-box">
           </select>
@@ -93,7 +93,7 @@
           </div>
           <div class="selectors-container">
             <div class="selector-group">
-              <label for="scenarioSelect" class="combo-label">Scenario to explore</label>
+              <label for="scenarioSelect" class="combo-label">Scenario</label>
               <select id="scenarioSelect" class="combo-box">
                 <option value="A">Scenario A</option>
                 <option value="B">Scenario B</option>
@@ -135,7 +135,7 @@
             </div>
 
             <div class="selector-group">
-              <label for="variableSelect" class="combo-label">Variable to display</label>
+              <label for="variableSelect" class="combo-label">Variable</label>
               <select id="variableSelect" class="combo-box">
                 <option value="foodStamps">Food stamps beneficiaries</option>
                 <option value="raceEthnicity">Race/ethnicity</option>
@@ -199,8 +199,10 @@
 
           <div class="selectors-container">
             <div class="selector-group">
-              <label for="scenarioSelect3" class="combo-label">Scenario to explore</label>
-              <select id="scenarioSelect3" class="combo-box">
+              <label for="scenarioSelect3" class="combo-label">Scenario (multiple choice)
+                <span style="cursor:help; color:#0074D9; font-weight:bold;" title="Hold Ctrl (Windows) or Cmd (Mac) to select more than one scenario.">[?]</span>
+              </label>
+              <select id="scenarioSelect3" class="combo-box" multiple style="height: 68px;">
                 <option value="A">Scenario A</option>
                 <option value="B">Scenario B</option>
                 <option value="C">Scenario C</option>
@@ -217,7 +219,7 @@
             </div>
 
             <div class="selector-group">
-              <label for="variableSelect3" class="combo-label">Variable to display</label>              <select id="variableSelect3" class="combo-box">
+              <label for="variableSelect3" class="combo-label">Variable</label>              <select id="variableSelect3" class="combo-box">
                 <option value="foodInsecurity">Food insecurity</option>
                 <option value="houseInsecurity">House insecurity</option>
                 <option value="ddWhiteAsian">DD White vs Asian</option>
